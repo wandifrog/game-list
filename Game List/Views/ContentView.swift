@@ -15,6 +15,11 @@ struct ContentView: View {
                     Image(systemName: "list.bullet")
                     Text("Games")
                 }
+            FavoriteView()
+                .tabItem {
+                    Image(systemName: "heart")
+                    Text("Favorite")
+                }
             ProfileView()
                 .tabItem {
                     Image(systemName: "person")

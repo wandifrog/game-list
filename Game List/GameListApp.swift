@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Game_ListApp: App {
+    @StateObject var state = Order()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+//                .environmentObject(state)
         }
     }
 }
