@@ -9,8 +9,19 @@ import SwiftUI
 import Kingfisher
 
 struct GameDetailView: View {
+    @EnvironmentObject var favorites: Favorites
+    @State private var isShareSheetShowing = false
     let game: Game
-    @EnvironmentObject var state: Order
+//    let isFavorite = favorites.games.contains { $0.id == game.id }
+    
+    func actionSheet(query: String) {
+        isShareSheetShowing.toggle()
+        
+        let searchQuery = query.replacingOccurrences(of: " ", with: "+")
+        let urlShare = URL(string: "https://www.google.com/search?q=\(searchQuery)")
+        let activityVC = UIActivityViewController(activityItems: [urlShare!], applicationActivities: nil)
+        UIApplication.shared.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
+    }
     
     var body: some View {
         VStack {
@@ -21,7 +32,7 @@ struct GameDetailView: View {
                 HStack (spacing: 22) {
                     Button(action: {
                         print("Share: \(game.name)")
-                        state.addItem(item: game.name)
+                        actionSheet(query: game.name)
                     },
                     label: {
                         Image(systemName: "square.and.arrow.up")
@@ -29,10 +40,18 @@ struct GameDetailView: View {
                             .font(.system(size: 21))
                     })
                     Button(action: {
-                        print("\(game)")
+                        if (favorites.games.contains { $0.id == game.id }) {
+                            favorites.removeItem()
+                            favorites.removeFavorite(id: game.id)
+                            print(favorites.items)
+                        } else {
+                            favorites.addItem(item: game.name)
+                            favorites.addFavorite(game: game)
+                            print(favorites.items)
+                        }
                     },
                     label: {
-                        Image(systemName: "heart.fill")
+                        Image(systemName: favorites.games.contains { $0.id == game.id } ? "heart.fill" : "heart")
                             .foregroundColor(.red)
                             .font(.system(size: 25))
                     })

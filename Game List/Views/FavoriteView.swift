@@ -9,25 +9,14 @@ import SwiftUI
 
 struct FavoriteView: View {
 //    @State var games: [Game] = []
-    @EnvironmentObject var state: Order
+    @EnvironmentObject var favorites: Favorites
 //    print(state)
     
     var body: some View {
         NavigationView {
-            Text("hai hai hai hello all")
-            
-            List(self.state.items, id: \.self) { item in
-                Text(item)
+            List(favorites.games, id: \.self.id) { game in
+                GameCard(game: game)
             }
-            
-//            List(games) { game in
-//                GameCard(game: game)
-//            }
-//            .onAppear() {
-//                Api().loadData { (games) in
-//                    self.games = games
-//                }
-//            }
             .navigationTitle("Favorite Games List")
         }
     }

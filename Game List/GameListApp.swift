@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct Game_ListApp: App {
-    @StateObject var state = Order()
+//    @StateObject var state = Favorites()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-//                .environmentObject(state)
+                .environmentObject(Favorites())
         }
     }
 }
